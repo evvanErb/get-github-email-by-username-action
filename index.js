@@ -27,6 +27,9 @@ try {
     console.log(`[*] Found ${username}\'s email: ${email}`)
     core.setOutput("email", email);
   })
+  .catch((error) => {
+    throw error;
+  });
 
 } catch (error) {
   core.setFailed(error.message);
