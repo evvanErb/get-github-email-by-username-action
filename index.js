@@ -8,7 +8,7 @@ try {
   console.log(`[*] Getting ${username}\'s GitHub email`);
 
   //fetch user's page
-  fetch(`https://api.github.com/users/${username}/events/public`)
+  const success = fetch(`https://api.github.com/users/${username}/events/public`)
   .then(function(response) {
 
     // When the page is loaded convert it to text
@@ -19,17 +19,20 @@ try {
     const position = apiData.indexOf("\"email\":\"");
 
     if (position < 0) {
-        throw 'Could not find email in API data';
+        return -1;
     }
 
     const email = apiData.substring((position + 9), (position + 9 + (apiData.substring(position + 9).indexOf('\"'))));
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
     core.setOutput("email", email);
+
+    return 1;
   })
-  .catch((error) => {
-    throw error;
-  });
+
+  if (success < 0) {
+      throw '[!] Could not find email in API Data';
+  }
 
 } catch (error) {
   core.setFailed(error.message);
