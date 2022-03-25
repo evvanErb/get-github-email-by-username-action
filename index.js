@@ -20,11 +20,12 @@ try {
   })
   .then((apiData) => {
 
-    console.log(apiData);
-
     const position = apiData.indexOf("\"email\":\"");
 
-    const email = apiData.substring(position, (apiData.substring(position + 10).indexOf('\"')));
+    console.log(position);
+    console.log((apiData.substring(position + 10).indexOf('\"')));
+
+    const email = apiData.substring(position, (position + 20));
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
     core.setOutput("email", email);
