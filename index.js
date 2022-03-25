@@ -12,11 +12,23 @@ try {
   .then(function(response) {
 
     // When the page is loaded convert it to text
-    return response.json()
+    return response.text()
   })
-  .then((data) => {
-      console.log(data);
-  });
+  .then(function(html) {
+
+    // Initialize the DOM parser
+    const jsdom = require("jsdom");
+    //Parse the HTML text
+    const dom = new jsdom.JSDOM(html);
+
+    console.log(dom.window.document);
+
+    // Get Email from DOM by class
+    const email = dom.window.document.getElementsByClassName("u-email")[0].innerHTML;
+
+    console.log(`[*] Found ${username}\'s email: ${email}`)
+    core.setOutput("email", email);
+  })
 
 } catch (error) {
   core.setFailed(error.message);
