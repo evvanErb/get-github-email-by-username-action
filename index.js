@@ -17,10 +17,9 @@ try {
   .then(function(html) {
 
     // Initialize the DOM parser
-    const parser = new DOMParser();
-
-    // Parse the text
-    const doc = parser.parseFromString(html, "text/html");
+    const jsdom = require("jsdom");
+    //Parse the HTML text
+    const dom = new jsdom.JSDOM(html);
 
     // Get Email from DOM by class
     const email = doc.getElementsByClassName("u-email")[0].innerHTML;
