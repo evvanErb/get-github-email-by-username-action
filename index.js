@@ -1,4 +1,6 @@
-import fetch from "node-fetch";
+const fs = require('fs');
+const cheerio = require('cheerio');
+const got = require('got');
 const core = require('@actions/core');
 const github = require('@actions/github');
 
@@ -7,28 +9,15 @@ try {
   const username = core.getInput('username');
   console.log(`[*] Getting ${username}\'s GitHub email`);
 
-  //fetch user's page
-  fetch(`https://github.com/${username}`)
-  .then(function(response) {
-
-    // When the page is loaded convert it to text
-    return response.text()
-  })
-  .then(function(html) {
-
-    // Initialize the DOM parser
-    const jsdom = require("jsdom");
-    //Parse the HTML text
-    const dom = new jsdom.JSDOM(html);
-
-    console.log(dom.window.document);
-
-    // Get Email from DOM by class
-    const email = dom.window.document.getElementsByClassName("u-email")[0].innerHTML;
-
-    console.log(`[*] Found ${username}\'s email: ${email}`)
-    core.setOutput("email", email);
-  })
+  got(`https://github.com/${username}`).then(response => {
+    const $ = cheerio.load(response.body);
+  
+    $('.u-email').each((i, element) => {
+      const email = element.text();
+      console.log(`[*] Found ${username}\'s email: ${email}`)
+      core.setOutput("email", email);
+    });
+  });
 
 } catch (error) {
   core.setFailed(error.message);
