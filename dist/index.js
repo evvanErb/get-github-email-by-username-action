@@ -18585,10 +18585,7 @@ try {
 
     const position = apiData.indexOf("\"email\":\"");
 
-    console.log(position);
-    console.log((apiData.substring(position + 10).indexOf('\"')));
-
-    const email = apiData.substring(position, (position + 20));
+    const email = apiData.substring((position + 9), (position + 9 + (apiData.substring(position + 9).indexOf('\"'))));
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
     core.setOutput("email", email);
