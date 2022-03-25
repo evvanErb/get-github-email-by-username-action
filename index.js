@@ -12,27 +12,11 @@ try {
   .then(function(response) {
 
     // When the page is loaded convert it to text
-    return response.text()
+    return response.json()
   })
-  .then(function(html) {
-
-    console.log(`${ html }`);
-    console.log("BREAK");
-
-    // Initialize the DOM parser
-    const jsdom = require("jsdom");
-    //Parse the HTML text
-    const dom = new jsdom.JSDOM(html);
-
-    // Get Email from DOM by class
-    console.log(`${ dom.window.document }`);
-    console.log("BREAK");
-    console.log(`${ dom.window.document.getElementsByClassName("u-email") }`);
-    const email = dom.window.document.getElementsByClassName("u-email")[0].innerHTML;
-
-    console.log(`[*] Found ${username}\'s email: ${email}`)
-    core.setOutput("email", email);
-  })
+  .then((data) => {
+      console.log(data);
+  });
 
 } catch (error) {
   core.setFailed(error.message);
