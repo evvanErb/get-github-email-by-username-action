@@ -1,0 +1,13 @@
+name: 'Get GitHub Email from Username'
+description: 'Get a GitHub users email address'
+inputs:
+  github-username:  # id of input
+    description: 'Username to get email for'
+    required: true
+    default: 'evvanErb'
+outputs:
+  email: # id of output
+    description: 'The email found'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
