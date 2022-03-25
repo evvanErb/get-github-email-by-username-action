@@ -20,7 +20,9 @@ try {
   })
   .then((apiData) => {
 
-    const position = apiData.search("\"email\": \"");
+    console.log(apiData);
+
+    const position = apiData.search("\"email\":\"");
 
     const email = apiData.substring(position, (apiData.substring(position + 11).indexOf('\"')));
 
