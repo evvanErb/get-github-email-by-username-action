@@ -18582,7 +18582,7 @@ try {
     const position = apiData.indexOf("\"email\":\"");
 
     if (position < 0) {
-        return -1;
+        throw '[!] Could not find email in API Data';
     }
 
     const email = apiData.substring((position + 9), (position + 9 + (apiData.substring(position + 9).indexOf('\"'))));
@@ -18592,10 +18592,9 @@ try {
 
     return 1;
   })
-
-  if (success < 0) {
-      throw '[!] Could not find email in API Data';
-  }
+  .catch((error) => {
+    core.setFailed(error.message);
+  });
 
 } catch (error) {
   core.setFailed(error.message);
