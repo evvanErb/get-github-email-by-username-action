@@ -18581,6 +18581,10 @@ try {
 
     const position = apiData.indexOf("\"email\":\"");
 
+    if (position < 0) {
+        throw 'Could not find email in API data';
+    }
+
     const email = apiData.substring((position + 9), (position + 9 + (apiData.substring(position + 9).indexOf('\"'))));
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
