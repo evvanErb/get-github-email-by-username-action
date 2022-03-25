@@ -2,10 +2,6 @@ import fetch from "node-fetch";
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-function findEmail(jsonData) {
-
-}
-
 try {
   // `username` input defined in action metadata file
   const username = core.getInput('username');

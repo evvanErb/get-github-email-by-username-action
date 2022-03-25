@@ -18565,10 +18565,6 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 const core = __nccwpck_require__(6984);
 const github = __nccwpck_require__(1684);
 
-function findEmail(jsonData) {
-
-}
-
 try {
   // `username` input defined in action metadata file
   const username = core.getInput('username');
