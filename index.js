@@ -16,12 +16,18 @@ try {
   })
   .then(function(html) {
 
+    console.log(`${ html }`);
+    console.log("BREAK");
+
     // Initialize the DOM parser
     const jsdom = require("jsdom");
     //Parse the HTML text
     const dom = new jsdom.JSDOM(html);
 
     // Get Email from DOM by class
+    console.log(`${ dom.window.document }`);
+    console.log("BREAK");
+    console.log(`${ dom.window.document.getElementsByClassName("u-email") }`);
     const email = dom.window.document.getElementsByClassName("u-email")[0].innerHTML;
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
