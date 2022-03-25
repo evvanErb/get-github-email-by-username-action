@@ -22,7 +22,7 @@ try {
     const dom = new jsdom.JSDOM(html);
 
     // Get Email from DOM by class
-    const email = doc.getElementsByClassName("u-email")[0].innerHTML;
+    const email = dom.getElementsByClassName("u-email")[0].innerHTML;
 
     console.log(`[*] Found ${username}\'s email: ${email}`)
     core.setOutput("email", email);
