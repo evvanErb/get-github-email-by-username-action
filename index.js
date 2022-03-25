@@ -1,5 +1,5 @@
 const cheerio = require('cheerio');
-import got from 'got';
+import request from 'request';
 const core = require('@actions/core');
 const github = require('@actions/github');
 
@@ -8,8 +8,13 @@ try {
   const username = core.getInput('username');
   console.log(`[*] Getting ${username}\'s GitHub email`);
 
-  got(`https://github.com/${username}`).then(response => {
-    const $ = cheerio.load(response.body);
+  request({
+        method: 'GET',
+        url: `https://github.com/${username}`
+        }, (err, res, body) => {
+
+    console.log(body);
+    const $ = cheerio.load(body);
   
     $('.u-email').each((i, element) => {
       const email = element.text();

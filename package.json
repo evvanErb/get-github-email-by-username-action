@@ -21,7 +21,7 @@
     "@actions/core": "^1.6.0",
     "@actions/github": "^5.0.0",
     "cheerio": "^1.0.0-rc.10",
-    "got": "^12.0.2",
-    "node-fetch": "^3.2.3"
+    "node-fetch": "^3.2.3",
+    "request": "^2.88.2"
   }
 }
