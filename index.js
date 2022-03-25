@@ -3,7 +3,7 @@ const core = require('@actions/core');
 
 try {
   // `username` input defined in action metadata file
-  const usernameForEmail = core.getInput(' github-username');
+  const usernameForEmail = core.getInput('github-username');
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
   //fetch user's page

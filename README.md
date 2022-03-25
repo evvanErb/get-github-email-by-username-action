@@ -20,7 +20,7 @@ jobs:
         id: test
         uses: evvanErb/get-github-email-by-username-action@v1.16
         with:
-          username: 'evvanErb' # This is the input username
+          github-username: 'evvanErb' # This is the input username
           
       # Use the output from the `test` step
       - name: Print the found email
