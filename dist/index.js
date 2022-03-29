@@ -8723,6 +8723,25 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 
 const core = __nccwpck_require__(984);
 
+function findEmail(apiData) {
+
+  const emailPosition = apiData.indexOf("\"email\":\"");
+
+  if (emailPosition < 0) {
+    return null;
+  }
+
+  const email = apiData.substring((emailPosition + 9), (emailPosition + 9 + (apiData.substring(emailPosition + 9).indexOf('\"'))));
+
+  //if found a bot email, continue searching
+  if (email.indexOf("users.noreply.github.com") >= 0) {
+    return findEmail(apiData.substring(emailPosition + 9));
+  }
+  else {
+    return email;
+  }
+}
+
 try {
   // `username` input defined in action metadata file
   const usernameForEmail = core.getInput('github-username');
@@ -8737,13 +8756,11 @@ try {
   })
   .then((apiData) => {
 
-    const emailPosition = apiData.indexOf("\"email\":\"");
+    const email = findEmail(apiData);
 
-    if (emailPosition < 0) {
-        throw Error('[!] Could not find email in API Data');
+    if (email == null) {
+      throw Error('[!] Could not find email in API Data');
     }
-
-    const email = apiData.substring((emailPosition + 9), (emailPosition + 9 + (apiData.substring(emailPosition + 9).indexOf('\"'))));
 
     console.log(`[*] Found ${usernameForEmail}\'s email: ${email}`)
     core.setOutput("email", email);
