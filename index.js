@@ -28,6 +28,9 @@ function findEmailInUserPage(html) {
 
   let email = $('.u-email');
 
+  if (email.text() == "" || email.text() == null) {
+    return null;
+  }
   return email.text();
 }
 
@@ -41,7 +44,7 @@ try {
   //try to login to github with provided credentials
   console.log(`[*] Trying to login as ${usernameForLogin} to get ${usernameForEmail}\'s GitHub email`);
   request.post({
-    url: 'https://exampleurl.com/login',
+    url: 'https://github.com/login',
     form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`}
   }, function(error, response, body){
 
