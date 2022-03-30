@@ -1,6 +1,5 @@
 import fetch from "node-fetch";
-const requestImport = require('request');
-const request = requestImport.defaults({jar: true})
+const request = require('request');
 const cheerio = require('cheerio');
 const core = require('@actions/core');
 
@@ -44,9 +43,11 @@ try {
 
   //try to login to github with provided credentials
   console.log(`[*] Trying to login as ${usernameForLogin} to get ${usernameForEmail}\'s GitHub email`);
+  var cookieJar = request.jar();
   request.post({
     url: 'https://github.com/login',
-    form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`}
+    form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`},
+    jar: cookieJar
   }, function(error, response, body){
 
     let headers = {}
@@ -61,7 +62,7 @@ try {
     //Get the desired user's page even if login failed
     request.get({
         url:`https://github.com/${usernameForEmail}`,
-        header: headers
+        jar: cookieJar
     },function(error, response, body){
 
         // Search the full html of the page for the email

@@ -60163,8 +60163,7 @@ function fixResponseChunkedTransferBadEnding(request, errorCallback) {
 
 ;// CONCATENATED MODULE: ./index.js
 
-const requestImport = __nccwpck_require__(8474);
-const request = requestImport.defaults({jar: true})
+const request = __nccwpck_require__(8474);
 const cheerio = __nccwpck_require__(1879);
 const core = __nccwpck_require__(6984);
 
@@ -60208,9 +60207,11 @@ try {
 
   //try to login to github with provided credentials
   console.log(`[*] Trying to login as ${usernameForLogin} to get ${usernameForEmail}\'s GitHub email`);
+  var cookieJar = request.jar();
   request.post({
     url: 'https://github.com/login',
-    form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`}
+    form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`},
+    jar: cookieJar
   }, function(error, response, body){
 
     let headers = {}
@@ -60225,7 +60226,7 @@ try {
     //Get the desired user's page even if login failed
     request.get({
         url:`https://github.com/${usernameForEmail}`,
-        header: headers
+        jar: cookieJar
     },function(error, response, body){
 
         // Search the full html of the page for the email
