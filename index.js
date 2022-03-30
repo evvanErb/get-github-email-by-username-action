@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-const request = require('request');
+const request = request.defaults({jar: true})
 const cheerio = require('cheerio');
 const core = require('@actions/core');
 
@@ -23,8 +23,6 @@ function findEmailInAPI(apiData) {
 }
 
 function findEmailInUserPage(html) {
-
-  return html;
 
   let $ = cheerio.load(html);
 
