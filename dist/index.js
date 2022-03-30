@@ -60192,6 +60192,8 @@ function findEmailInUserPage(html) {
 
   let email = $('.u-email');
 
+  console.log(`${email}`);
+
   if (email.text() == "" || email.text() == null) {
     return null;
   }
