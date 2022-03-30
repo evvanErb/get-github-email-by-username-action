@@ -15,7 +15,7 @@ function findEmailInAPI(apiData) {
 
   //if found a bot email, continue searching
   if (email.indexOf("users.noreply.github.com") >= 0) {
-    return findEmail(apiData.substring(emailPosition + 9));
+    return findEmailInAPI(apiData.substring(emailPosition + 9));
   }
   else {
     return email;
