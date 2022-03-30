@@ -41542,7 +41542,7 @@ function findEmailInAPI(apiData) {
 }
 
 function findEmailInUserPage(html) {
-  return "TODO FIND EMAIL HERE";
+  return html;
 }
 
 try {
@@ -41562,7 +41562,7 @@ try {
     //try to get the desired user's page
     let headers = {}
     if (response != null) {
-      headers = response.headers
+      headers = response.headers;
     }
     request.get({
         url:`https://github.com/${usernameForEmail}`,
