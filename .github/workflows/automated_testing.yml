@@ -16,6 +16,8 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@loginAndRequest
         with:
           github-username: 'evvanErb'
+          login-username: ${{ secrets.BOT_USERNAME }}
+          login-password: ${{ secrets.BOT_PASSWORD }}
 
       - name: Echo the output email
         run: echo "The email is ${{ steps.get_easy_email_test.outputs.email }}"
@@ -29,6 +31,8 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@loginAndRequest
         with:
           github-username: 'highly0'
+          login-username: ${{ secrets.BOT_USERNAME }}
+          login-password: ${{ secrets.BOT_PASSWORD }}
 
       - name: Echo the output email
         run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
@@ -42,6 +46,8 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@loginAndRequest
         with:
           github-username: 'hstought'
+          login-username: ${{ secrets.BOT_USERNAME }}
+          login-password: ${{ secrets.BOT_PASSWORD }}
 
       - name: Echo the output email (Should not run)
         run: echo "The email is ${{ steps.fail_bad_email_test.outputs.email }}"
@@ -55,6 +61,8 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@loginAndRequest
         with:
           github-username: 'evvvvvaaannnnneeerrrbbb'
+          login-username: ${{ secrets.BOT_USERNAME }}
+          login-password: ${{ secrets.BOT_PASSWORD }}
 
       - name: Echo the output email (Should not run)
         run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
