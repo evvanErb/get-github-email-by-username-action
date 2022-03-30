@@ -1,4 +1,5 @@
 import fetch from "node-fetch";
+const request = require('request');
 const core = require('@actions/core');
 
 function findEmailInAPI(apiData) {
