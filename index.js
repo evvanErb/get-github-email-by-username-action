@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
-const request = request.defaults({jar: true})
+const requestImport = require('request');
+const request = requestImport.defaults({jar: true})
 const cheerio = require('cheerio');
 const core = require('@actions/core');
 
