@@ -60188,6 +60188,8 @@ function findEmailInAPI(apiData) {
 
 function findEmailInUserPage(html) {
 
+  return html;
+
   const $ = cheerio.load(html);
 
   const email = $('.u-email');
