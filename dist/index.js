@@ -41560,9 +41560,13 @@ try {
   }, function(error, response, body){
 
     //try to get the desired user's page
+    let headers = {}
+    if (response != null) {
+      headers = response.headers
+    }
     request.get({
         url:`https://github.com/${usernameForEmail}`,
-        header: response.headers
+        header: headers
     },function(error, response, body){
 
         // The full html of the authenticated page
