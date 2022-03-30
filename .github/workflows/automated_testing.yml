@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: get easy email
         id: get_easy_email_test
-        uses: evvanErb/get-github-email-by-username-action@${{ github.head_ref }}
+        uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'evvanErb'
 
@@ -26,7 +26,7 @@ jobs:
     steps:
       - name: get email after bot
         id: get_email_after_bot_test
-        uses: evvanErb/get-github-email-by-username-action@${{ github.head_ref }}
+        uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'highly0'
 
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: fail bad email
         id: fail_bad_email_test
-        uses: evvanErb/get-github-email-by-username-action@${{ github.head_ref }}
+        uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'hstought'
 
@@ -52,7 +52,7 @@ jobs:
     steps:
       - name: get email after bot
         id: get_email_after_bot_test
-        uses: evvanErb/get-github-email-by-username-action@${{ github.head_ref }}
+        uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'evvvvvaaannnnneeerrrbbb'
 
