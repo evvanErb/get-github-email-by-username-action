@@ -52,6 +52,9 @@ try {
     jar: cookieJar
   }, function(error, response, body){
 
+    console.log(response);
+    console.log(body);
+
     let headers = {}
     if (response != null) {
       headers = response.headers;
