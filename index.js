@@ -24,11 +24,11 @@ function findEmailInAPI(apiData) {
 
 function findEmailInUserPage(html) {
 
+  return html;
+
   let $ = cheerio.load(html);
 
   let email = $('.u-email');
-
-  console.log(`${email}`);
 
   if (email.text() == "" || email.text() == null) {
     return null;
