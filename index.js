@@ -24,9 +24,9 @@ function findEmailInAPI(apiData) {
 
 function findEmailInUserPage(html) {
 
-  let $ = cheerio.load(html);
+  const $ = cheerio.load(html);
 
-  let email = $('.u-email');
+  const email = $('.u-email');
 
   if (email.text() == "" || email.text() == null) {
     return null;
@@ -62,6 +62,7 @@ try {
     //Get the desired user's page even if login failed
     request.get({
         url:`https://github.com/${usernameForEmail}`,
+        header: headers,
         jar: cookieJar
     },function(error, response, body){
 
