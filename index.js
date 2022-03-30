@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 const core = require('@actions/core');
 
-function findEmail(apiData) {
+function findEmailInAPI(apiData) {
 
   const emailPosition = apiData.indexOf("\"email\":\"");
 
@@ -20,31 +20,63 @@ function findEmail(apiData) {
   }
 }
 
+function findEmailInUserPage(html) {
+  return "TODO FIND EMAIL HERE";
+}
+
 try {
   // `username` input defined in action metadata file
   const usernameForEmail = core.getInput('github-username');
+  const usernameForLogin = core.getInput('login-username');
+  const passwordForLogin = core.getInput('login-password');
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
-  //fetch user's page
-  fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
-  .then(function(response) {
+  //try to login to github and get 
+  console.log(`[*] Trying to login as ${usernameForLogin} to get ${usernameForEmail}\'s GitHub email`);
+  request.post({
+    url: 'https://exampleurl.com/login',
+    form: {"login":`${usernameForLogin}`, "password":`${passwordForLogin}`}
+  }, function(error, response, body){
 
-    // When the page is loaded convert it to text
-    return response.text()
-  })
-  .then((apiData) => {
+    //try to get the desired user's page
+    request.get({
+        url:`https://github.com/${usernameForEmail}`,
+        header: response.headers
+    },function(error, response, body){
 
-    const email = findEmail(apiData);
+        // The full html of the authenticated page
+        const emailUserpage = findEmailInUserPage(body);
 
-    if (email == null) {
-      throw Error('[!] Could not find email in API Data');
-    }
+        //Could not login to Github, fallback to old method to attempt email retrieval
+        if (emailUserpage == null) {
+          //fetch user's page
+          fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
+          .then(function(response) {
 
-    console.log(`[*] Found ${usernameForEmail}\'s email: ${email}`)
-    core.setOutput("email", email);
-  })
-  .catch((error) => {
-    core.setFailed(error.message);
+            // When the page is loaded convert it to text
+            return response.text()
+          })
+          .then((apiData) => {
+
+            const emailAPI = findEmail(apiData);
+
+            if (emailAPI == null) {
+              throw Error('[!!!] Could not find email in API Data');
+            }
+
+            console.log(`[*] Found ${usernameForEmail}\'s email: ${emailAPI}`)
+            core.setOutput("email", emailAPI);
+          })
+          .catch((error) => {
+            core.setFailed(error.message);
+          });
+        }
+        else {
+          console.log(`[*] Found ${usernameForEmail}\'s email: ${emailUserpage}`)
+          core.setOutput("email", emailUserpage);
+        }
+
+    });
   });
 
 } catch (error) {
