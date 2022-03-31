@@ -7,13 +7,8 @@ inputs:
     required: true
     default: 'evvanErb'
 
-  login-username:  # id of input
-    description: 'Username to login to get email'
-    required: false
-    default: ''
-
-  login-password:  # id of input
-    description: 'Password to login to get email'
+  token:  # id of input
+    description: 'Token to login to get email'
     required: false
     default: ''
 
