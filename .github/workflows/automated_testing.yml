@@ -23,7 +23,7 @@ jobs:
 
   get_easy_email_bad_token:
     runs-on: ubuntu-latest
-    name: Get an easy to find email bad email
+    name: Get an easy to find email bad token
     steps:
       - name: get easy email
         id: get_easy_email_test
