@@ -27,8 +27,9 @@ try {
   const usernameForEmail = core.getInput('github-username');
   const token = core.getInput('token');
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
+  const octokit = new Octokit({ auth: `${token}` });
 
-  let userAPIData = await Octokit.request('GET /users/:username', {
+  let userAPIData = await octokit.request(`GET /users/${usernameForEmail}`, {
     username: usernameForEmail,
     headers: {
         Authorization: `bearer ${token}`,
