@@ -39,14 +39,13 @@ try {
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
   //attempt to use auth token to get email via accessing the user's API page
-  const octokit = new Octokit({ auth: `${token}` });
-  let userAPIData = await octokit.request(`GET /users/${usernameForEmail}`, {
-    username: usernameForEmail,
-    headers: {
-        Authorization: `bearer ${token}`,
-        Accept: 'application/vnd.github.v3+json',
-    },
-  });
+  let userAPIData = null;
+  try {
+    const octokit = new Octokit({ auth: `${token}` });
+    userAPIData = await octokit.request(`GET /users/${usernameForEmail}`, {});
+  } catch (error) {
+    console.log("[!] " + error.message);
+  }
 
   // Extract the email if the user's API was accessed successfully
   let emailUserpage = null;
