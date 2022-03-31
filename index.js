@@ -29,7 +29,7 @@ try {
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
   let userAPIData = await request('GET /users/:username', {
-    username: username,
+    username: usernameForEmail,
     headers: {
         Authorization: `bearer ${token}`,
         Accept: 'application/vnd.github.v3+json',
