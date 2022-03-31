@@ -3,7 +3,7 @@ GitHub Actions Plugin to get a GitHub user's email based on their username
 
 ## Usage
 
-Takes in a username as a required input, queries Github's API to find all public event related to a user, then finds their email in the API response and returns it. The user must have made a commit to a public repo during the current calendar year and have their email exposed to the public in their settings.
+Takes in a username as a required input and a personal access token as an optional input. If a personal access token (does not matter whose) is provided, it queries Github's Users API to find the public info available for the provided username in order to get their email. If this fails, or no auth token is provided, it attempts to search all public event related to a user, then tries to find their email in the API response and return it (fallback / no auth token method). For the fallback / no auth token method, a user must have made a commit to a public repo during the current calendar year and have their email exposed to the public in their settings.
 
 ## Example
 ```
@@ -21,6 +21,7 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@v1.25
         with:
           github-username: 'evvanErb' # This is the input username
+          token: 'token' # This is an optional input of a PAT to use a more reliable way to get a user's email
           
       # Use the output from the `test` step
       - name: Print the found email

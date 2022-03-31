@@ -21,6 +21,19 @@ jobs:
       - name: Echo the output email
         run: echo "The email is ${{ steps.get_easy_email_test.outputs.email }}"
 
+  get_easy_email_bad_token:
+    runs-on: ubuntu-latest
+    name: Get an easy to find email
+    steps:
+      - name: get easy email
+        id: get_easy_email_test
+        uses: evvanErb/get-github-email-by-username-action@loginAndRequest
+        with:
+          github-username: 'evvanErb'
+
+      - name: Echo the output email
+        run: echo "The email is ${{ steps.get_easy_email_test.outputs.email }}"
+
   get_email_past_bot_email:
     runs-on: ubuntu-latest
     name: Get an email listed past a bot email in the API Data
@@ -30,6 +43,20 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@loginAndRequest
         with:
           github-username: 'highly0'
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Echo the output email
+        run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
+
+  get_email_only_userpage_no_events:
+    runs-on: ubuntu-latest
+    name: Get an email listed past a bot email in the API Data
+    steps:
+      - name: get email after bot
+        id: get_email_after_bot_test
+        uses: evvanErb/get-github-email-by-username-action@loginAndRequest
+        with:
+          github-username: 'jaronson13'
           token: ${{ secrets.BOT_TOKEN }}
 
       - name: Echo the output email
