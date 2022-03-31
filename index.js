@@ -28,47 +28,45 @@ try {
   const token = core.getInput('token');
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
-  let headers = {
-    "authorization": `bearer ${token}`,
-    "accept": "application/vnd.github.v3+json",
-    "user-agent": "octokit.rest"
-  }
-
-  request.get({
-    url:`https://api.github.com/users/${usernameForEmail}`,
-    header: headers
-  },function(error, response, body){
-
-    // Search the full html of the page for the email
-    const emailUserpage = findEmail(body);
-
-    //email not found on page, fallback to old method to attempt email retrieval
-    if (emailUserpage == null) {
-
-      console.log(`[*] Falling back to old API retrieval method`);
-      //fetch user's page
-      fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
-      .then(function(response) {
-
-        // When the page is loaded convert it to text
-        return response.text()
-      })
-      .then((apiData) => {
-
-        const emailAPI = findEmail(apiData);
-
-        if (emailAPI == null) {
-          throw Error('[!!!] Could not find email in API Data');
-        }
-
-        console.log(`[*] Found ${usernameForEmail}\'s email: ${emailAPI}`)
-        core.setOutput("email", emailAPI);
-      })
-      .catch((error) => {
-        core.setFailed(error.message);
-      });
-    }
+  let userAPIData = await request('GET /users/:username', {
+    username: username,
+    headers: {
+        Authorization: `bearer ${token}`,
+        Accept: 'application/vnd.github.v3+json',
+    },
   });
+
+  console.log(userAPIData);
+
+  // Search the full html of the page for the email
+  const emailUserpage = findEmail(userAPIData);
+
+  //email not found on page, fallback to old method to attempt email retrieval
+  if (emailUserpage == null) {
+
+    console.log(`[*] Falling back to old API retrieval method`);
+    //fetch user's page
+    fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
+    .then(function(response) {
+
+      // When the page is loaded convert it to text
+      return response.text()
+    })
+    .then((apiData) => {
+
+      const emailAPI = findEmail(apiData);
+
+      if (emailAPI == null) {
+        throw Error('[!!!] Could not find email in API Data');
+      }
+
+      console.log(`[*] Found ${usernameForEmail}\'s email: ${emailAPI}`)
+      core.setOutput("email", emailAPI);
+    })
+    .catch((error) => {
+      core.setFailed(error.message);
+    });
+  }
 
 } catch (error) {
   core.setFailed(error.message);
