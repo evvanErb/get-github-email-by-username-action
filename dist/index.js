@@ -32,6 +32,15 @@ function findEmailCommitAPI(apiData) {
   }
 }
 
+function findEmailUserAPI(userAPIData) {
+  if (userAPIData != null && userAPIData.data != null && userAPIData.data.email != null &&  userAPIData.data.email != "") {
+    return userAPIData.data.email;
+  }
+  else {
+    return null;
+  }
+}
+
 try {
   //inputs defined in action metadata file
   const usernameForEmail = core.getInput('github-username');
@@ -48,10 +57,7 @@ try {
   });
 
   // Search the full html of the page for the email
-  let emailUserpage = null;
-  if (userAPIData != null && userAPIData.data != null && userAPIData.data.email != null &&  userAPIData.data.email != "") {
-    emailUserpage = userAPIData.data.email;
-  }
+  let emailUserpage = findEmailUserAPI(userAPIData);
 
   //email not found on page, fallback to old method to attempt email retrieval
   if (emailUserpage == null) {
