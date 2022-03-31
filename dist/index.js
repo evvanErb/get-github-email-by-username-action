@@ -59,7 +59,7 @@ try {
   });
 
   // Search the full html of the page for the email
-  const emailUserpage = findEmailUserAPI(`${userAPIData.data}`);
+  const emailUserpage = findEmailUserAPI(`${userAPIData}`);
 
   //email not found on page, fallback to old method to attempt email retrieval
   if (emailUserpage == null) {
