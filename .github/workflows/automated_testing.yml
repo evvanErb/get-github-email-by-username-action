@@ -23,7 +23,7 @@ jobs:
 
   get_easy_email_bad_token:
     runs-on: ubuntu-latest
-    name: Get an easy to find email
+    name: Get an easy to find email bad email
     steps:
       - name: get easy email
         id: get_easy_email_test
@@ -50,7 +50,7 @@ jobs:
 
   get_email_only_userpage_no_events:
     runs-on: ubuntu-latest
-    name: Get an email listed past a bot email in the API Data
+    name: Get an email listed on a user's page but not in events
     steps:
       - name: get email after bot
         id: get_email_after_bot_test
