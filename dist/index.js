@@ -35,6 +35,7 @@ function findEmailCommitAPI(apiData) {
 function findEmailUserAPI(apiData) {
 
   const emailPosition = apiData.indexOf("email: \'");
+  console.log(apiData);console.log(emailPosition);
 
   if (emailPosition < 0) {
     return null;
