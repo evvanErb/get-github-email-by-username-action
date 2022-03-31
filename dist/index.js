@@ -41588,8 +41588,6 @@ try {
         core.setFailed(error.message);
       });
     }
-  }).catch((error) => {
-    core.setFailed(error.message);
   });
 
 } catch (error) {
