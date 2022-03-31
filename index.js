@@ -1,7 +1,8 @@
 import fetch from "node-fetch";
+const { Octokit } = require("@octokit/core");
 const core = require('@actions/core');
 
-function findEmail(apiData) {
+function findEmailCommitAPI(apiData) {
 
   const emailPosition = apiData.indexOf("\"email\":\"");
 
@@ -13,7 +14,7 @@ function findEmail(apiData) {
 
   //if found a bot email, continue searching
   if (email.indexOf("users.noreply.github.com") >= 0) {
-    return findEmail(apiData.substring(emailPosition + 9));
+    return findEmailCommitAPI(apiData.substring(emailPosition + 9));
   }
   else {
     return email;
@@ -21,31 +22,58 @@ function findEmail(apiData) {
 }
 
 try {
-  // `username` input defined in action metadata file
+  //inputs defined in action metadata file
   const usernameForEmail = core.getInput('github-username');
+  const token = core.getInput('token');
+
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
 
-  //fetch user's page
-  fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
-  .then(function(response) {
+  //attempt to use auth token to get email via accessing the user's API page
+  let userAPIData = null;
+  try {
+    const octokit = new Octokit({ auth: `${token}` });
+    userAPIData = await octokit.request(`GET /users/${usernameForEmail}`, {});
+  } catch (error) {
+    console.log("[!] " + error.message);
+  }
 
-    // When the page is loaded convert it to text
-    return response.text()
-  })
-  .then((apiData) => {
+  // Extract the email if the user's API was accessed successfully
+  let emailUserpage = null;
+  if (userAPIData != null && userAPIData.data != null && userAPIData.data.email != null &&  userAPIData.data.email != "") {
+    emailUserpage = userAPIData.data.email;
+  }
 
-    const email = findEmail(apiData);
+  //email not found on user's API page or failed to authenticate with token, fallback to old method to attempt email retrieval
+  if (emailUserpage == null) {
 
-    if (email == null) {
-      throw Error('[!] Could not find email in API Data');
-    }
+    console.log(`[*] Falling back to old API retrieval method`);
 
-    console.log(`[*] Found ${usernameForEmail}\'s email: ${email}`)
-    core.setOutput("email", email);
-  })
-  .catch((error) => {
-    core.setFailed(error.message);
-  });
+    //fetch user's public events page
+    fetch(`https://api.github.com/users/${usernameForEmail}/events/public`)
+    .then(function(response) {
+
+      // When the page is loaded convert it to text
+      return response.text()
+    })
+    .then((apiData) => {
+
+      const emailEventsPage = findEmailCommitAPI(apiData);
+
+      if (emailEventsPage == null) {
+        throw Error('[!!!] Could not find email in API Data');
+      }
+
+      console.log(`[*] Found ${usernameForEmail}\'s email: ${emailEventsPage}`)
+      core.setOutput("email", emailEventsPage);
+    })
+    .catch((error) => {
+      core.setFailed(error.message);
+    });
+  }
+  else {
+    console.log(`[*] Found ${usernameForEmail}\'s email: ${emailUserpage}`)
+    core.setOutput("email", emailUserpage);
+  }
 
 } catch (error) {
   core.setFailed(error.message);

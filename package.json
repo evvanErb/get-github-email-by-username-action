@@ -19,6 +19,7 @@
   "homepage": "https://github.com/evvanErb/get-github-email-by-username-action#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
+    "@octokit/core": "^3.6.0",
     "fetch": "^1.1.0",
     "node-fetch": "^3.2.3"
   }

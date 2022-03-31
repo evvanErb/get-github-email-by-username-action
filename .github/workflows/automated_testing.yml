@@ -16,6 +16,20 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'evvanErb'
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Echo the output email
+        run: echo "The email is ${{ steps.get_easy_email_test.outputs.email }}"
+
+  get_easy_email_bad_token:
+    runs-on: ubuntu-latest
+    name: Get an easy to find email bad token
+    steps:
+      - name: get easy email
+        id: get_easy_email_test
+        uses: evvanErb/get-github-email-by-username-action@main
+        with:
+          github-username: 'evvanErb'
 
       - name: Echo the output email
         run: echo "The email is ${{ steps.get_easy_email_test.outputs.email }}"
@@ -29,6 +43,21 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'highly0'
+          token: ${{ secrets.BOT_TOKEN }}
+
+      - name: Echo the output email
+        run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
+
+  get_email_only_userpage_no_events:
+    runs-on: ubuntu-latest
+    name: Get an email listed on a user's page but not in events
+    steps:
+      - name: get email after bot
+        id: get_email_after_bot_test
+        uses: evvanErb/get-github-email-by-username-action@main
+        with:
+          github-username: 'jaronson13'
+          token: ${{ secrets.BOT_TOKEN }}
 
       - name: Echo the output email
         run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
@@ -42,6 +71,7 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'hstought'
+          token: ${{ secrets.BOT_TOKEN }}
 
       - name: Echo the output email (Should not run)
         run: echo "The email is ${{ steps.fail_bad_email_test.outputs.email }}"
@@ -55,6 +85,7 @@ jobs:
         uses: evvanErb/get-github-email-by-username-action@main
         with:
           github-username: 'evvvvvaaannnnneeerrrbbb'
+          token: ${{ secrets.BOT_TOKEN }}
 
       - name: Echo the output email (Should not run)
         run: echo "The email is ${{ steps.get_email_after_bot_test.outputs.email }}"
