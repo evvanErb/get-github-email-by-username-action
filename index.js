@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { Octokit, App } from "octokit";
+const { Octokit } = require("@octokit/core");
 const request = require('request');
 const core = require('@actions/core');
 
