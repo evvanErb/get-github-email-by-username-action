@@ -7,6 +7,11 @@ inputs:
     required: true
     default: 'evvanErb'
 
+  allow-anonymous:
+    description: 'Allow anonymous emails to be found'
+    required: false
+    default: 'false'
+
   token:  # id of input
     description: 'Token to login to get email'
     required: false

@@ -4,7 +4,8 @@
   "description": "GitHub Actions Plugin to get a GitHub user's email based on their username",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:clear": "rm -rf dist",
+    "build": "npm run build:clear && ncc build index.js --minify --license licenses.txt"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,8 @@
     "@octokit/core": "^3.6.0",
     "fetch": "^1.1.0",
     "node-fetch": "^3.2.3"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.36.1"
   }
 }

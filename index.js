@@ -2,7 +2,7 @@ import fetch from "node-fetch";
 const { Octokit } = require("@octokit/core");
 const core = require('@actions/core');
 
-function findEmailCommitAPI(apiData) {
+function findEmailCommitAPI(apiData, allowAnonymous) {
 
   const emailPosition = apiData.indexOf("\"email\":\"");
 
@@ -12,9 +12,10 @@ function findEmailCommitAPI(apiData) {
 
   const email = apiData.substring((emailPosition + 9), (emailPosition + 9 + (apiData.substring(emailPosition + 9).indexOf('\"'))));
 
-  //if found a bot email, continue searching
-  if (email.indexOf("users.noreply.github.com") >= 0) {
-    return findEmailCommitAPI(apiData.substring(emailPosition + 9));
+  const isAnonymousEmail = (email.indexOf("users.noreply.github.com") >= 0);
+
+  if (isAnonymousEmail && !allowAnonymous) {
+    return findEmailCommitAPI(apiData.substring(emailPosition + 9), allowAnonymous);
   }
   else {
     return email;
@@ -24,6 +25,7 @@ function findEmailCommitAPI(apiData) {
 try {
   //inputs defined in action metadata file
   const usernameForEmail = core.getInput('github-username');
+  const allowAnonymousEmail = (core.getInput('allow-anonymous') === 'true');
   const token = core.getInput('token');
 
   console.log(`[*] Getting ${usernameForEmail}\'s GitHub email`);
@@ -57,7 +59,7 @@ try {
     })
     .then((apiData) => {
 
-      const emailEventsPage = findEmailCommitAPI(apiData);
+      const emailEventsPage = findEmailCommitAPI(apiData, allowAnonymousEmail);
 
       if (emailEventsPage == null) {
         throw Error('[!!!] Could not find email in API Data');

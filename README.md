@@ -20,10 +20,23 @@ jobs:
         id: test
         uses: evvanErb/get-github-email-by-username-action@v1.25
         with:
-          github-username: 'evvanErb' # This is the input username
-          token: 'token' # This is an optional input of a PAT to use a more reliable way to get a user's email
+          github-username: evvanErb
+          allow-anonymous: false
+          token: null
           
       # Use the output from the `test` step
       - name: Print the found email
         run: echo "The email is ${{ steps.test.outputs.email }}" # Example of how to access output email
 ```
+
+## Inputs
+| Input               | Type    | Required | Description                                                    |
+|---------------------|---------|----------|----------------------------------------------------------------|
+| **github-username** | String  | *        | Search email for provided username                             |
+| **allow-anonymous** | Boolean |          | Allow capture anonymous GitHub emails. By default set to false |
+| **token**           | String  |          | Use the GitHub API token to retrieve the email                 |
+
+## Outputs
+| Output              | Type    | Description                                       |
+|---------------------|---------|---------------------------------------------------|
+| **email**           | String  | The email address that was found for the username |
