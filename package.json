@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build:clear": "rm -rf dist",
-    "build": "npm run build:clear && ncc build index.js --license licenses.txt"
+    "build": "npm run build:clear && ncc build index.js --minify --license licenses.txt"
   },
   "repository": {
     "type": "git",
